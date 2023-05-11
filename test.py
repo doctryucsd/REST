@@ -20,6 +20,7 @@ parser.add_argument('--transformation', type=int, default=1, help='number of tra
 parser.add_argument('--run_optimal', type=str, default='true', help='run GeoSteiner to generate optimal RSMT')
 parser.add_argument('--plot_first', type=str, default='true', help='plot the first result')
 parser.add_argument('--seed', type=int, default=7, help='random seed')
+parser.add_argument('--output_file', type=str, default="out.txt", help="the file record the lengths")
 
 args = parser.parse_args()
 
@@ -31,7 +32,7 @@ print('experiment             ', args.experiment)
 print()
 base_dir = 'save/'
 exp_dir = base_dir + args.experiment + '/'
-ckp_dir = exp_dir + 'rsmt' + str(args.degree) + 'b.pt'
+ckp_dir = exp_dir + 'rsmt' + str(50) + 'b.pt'
 
 checkpoint = torch.load(ckp_dir)
 actor = Actor(args.degree, device)
@@ -91,6 +92,10 @@ else:
     
 full_time = time.time() - start_time
 
+with open(args.output_file, "w") as f:
+    for length in all_lengths:
+        f.write(f"{str(length)}\n")
+        
 print('REST mean length       ', round(all_lengths.mean(), 6))
 print('inference time         ', round(inference_time, 3))
 print('   full   time         ', round(full_time, 3))

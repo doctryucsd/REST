@@ -1,1 +1,3 @@
 test_set/*.txt
+__pycache__
+outputs/*.txt
