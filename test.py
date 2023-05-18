@@ -21,6 +21,7 @@ parser.add_argument('--run_optimal', type=str, default='true', help='run GeoStei
 parser.add_argument('--plot_first', type=str, default='true', help='plot the first result')
 parser.add_argument('--seed', type=int, default=7, help='random seed')
 parser.add_argument('--output_file', type=str, default="out.txt", help="the file record the lengths")
+parser.add_argument('--golden_file', type=str, default="out.txt", help="the file record the golden lengths")
 
 args = parser.parse_args()
 
@@ -110,6 +111,11 @@ if args.run_optimal.lower() == 'true':
         gst_lengths.append(gst_length)
     gst_time = time.time() - gst_start_time
     gst_lengths = np.array(gst_lengths)
+
+    with open(args.golden_file, "w") as f:
+        for length in gst_lengths:
+            f.write(f"{str(length)}\n")
+
     print('GeoSteiner mean length ', round(gst_lengths.mean(), 6))
     print('GeoSteiner time        ', round(gst_time, 3))
     print()
