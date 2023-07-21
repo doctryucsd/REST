@@ -6,6 +6,7 @@ import os
 
 def get_files(dir: str) -> List[str]:
     files: List[str] = os.listdir(dir)
+    files = sorted(files)
     files = [os.path.join(dir, file) for file in files]
 
     return files
